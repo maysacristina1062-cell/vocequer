@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Você Quer?</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Georgia', serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at center, #ff3b3b, #b30000, #4a0000);
+    color:white;
+    padding:60px 20px;
+    overflow: hidden;
+}
+
+/* Tela inicial */
+.click-screen{
+    font-size:3rem;
+    cursor:pointer;
+    animation:pulse 2s infinite;
+    text-align:center;
+}
+
+@keyframes pulse{
+    0%{opacity:0.7;}
+    50%{opacity:1;}
+    100%{opacity:0.7;}
+}
+
+.hidden{
+    display:none;
+}
+
+/* Carta */
+.carta {
+    max-width:800px;
+    font-size:1.35rem;
+    line-height:1.8;
+    text-align:left;
+    text-indent: 40px; /* 👈 recuo bonito */
+    white-space: pre-wrap;
+}
+
+.carta.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 20px;
+    color: rgba(255,255,255,0.8);
+    animation: subir 6s linear forwards;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+@keyframes subir {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120vh);
+        opacity: 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="first" class="click-screen">
+    Você quer?
+</div>
+
+<div id="second" class="hidden">
+    <div id="text" class="carta"></div>
+</div>
+
+<script>
+const message = `Você quer morar comigo? Deixo você trocar a cor das paredes, e dormi em qualquer lado da cama.  
+
+Você quer? Meu riso é alto, e eu falo muito, mas prometo ser seu cantinho de paz sempre que precisar. 
+Não sou perfeita, mas prometo todos os dias ser melhor para te fazer o homem mais feliz do mundo. 
+Prometo guarda as meias no lugar certo e até a lavar a louça. 
+Prometo que terás espaço para ser que es. 
+Terás cheiro de café e bolo ao amanhecer. 
+Podemos ver todos os filmes, animes e jogos juntinhos comendo pipoca ou amendoim. 
+As conversas podem ser longas e tranquilas, mas se precisas de silêncio, eu apenas sento ao seu lado e seguro a sua mão. 
+
+Você quer? Prometo não reclamar qnd esquecer a chuteira jogada, ou quando colocar uma roupa em cima da porta. 
+Prometo muito sexo, beijos e cafunés. 
+Prometo as orações diárias até o último dia da minha vida, e pode ter certeza que até do além, eu vou cuidar de ti. 
+Prometo que vou a todos os seus jogos, e que você pode sair com seus amigos. 
+Prometo não brigar, pois odeio brigas. 
+Aos sábados teremos cachupa e pudim, ou a sobremesa que querer. 
+E pode deixar que eu lavo todas as panelas, até às mais difíceis, mas só se você morar comigo.  
+
+Você quer? Metade do guarda roupa e da mesa será seu, mas o coração será inteiro, nada de metades. 
+Só deixei um espacinho na estante, para colocar meus livros e no seu colo para colocar minha cabeça. 
+
+Só. 
+
+Acho que é isso. 
+Você me ouviu dizendo que faço cachupa e lavo a louça né?!`;
+
+const first = document.getElementById("first");
+const second = document.getElementById("second");
+const text = document.getElementById("text");
+
+let index = 0;
+
+first.addEventListener("click", () => {
+    first.classList.add("hidden");
+    second.classList.remove("hidden");
+    text.classList.add("show");
+    typeWriter();
+});
+
+function typeWriter(){
+    if(index < message.length){
+        text.innerHTML += message.charAt(index);
+        index++;
+        window.scrollTo(0, document.body.scrollHeight);
+        setTimeout(typeWriter, 22);
+    }
+}
+
+function criarCoracao() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(criarCoracao, 800);
+</script>
+
+</body>
+</html>
